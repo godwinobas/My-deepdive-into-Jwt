@@ -10,7 +10,7 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // database connection
-const dbURI = ''
+const dbURI = 'mongodb+srv://godwinobas0:bPqgVeJfGkiyPL6i@cluster0.htnb5xy.mongodb.net/'
 mongoode.connect(dbURI)
     .then((result) => app.listen(3000))
     .catch((err) => console.log(err));
