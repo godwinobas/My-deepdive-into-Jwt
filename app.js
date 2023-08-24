@@ -6,6 +6,7 @@ const app = express();
 
 // Middleware
 app.use(express.static('public'));
+app.use(express.json());
 
 // View Engine
 app.set('view engine', 'ejs');
