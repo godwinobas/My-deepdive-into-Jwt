@@ -1,12 +1,14 @@
 const express = require ("express");
 const mongoose = require ("mongoose");
 const authRoutes = require('./routes/authRoutes');
+const cookieparser = require('cookie-parser');
 
 const app = express();
 
 // Middleware
 app.use(express.static('public'));
 app.use(express.json());
+app.use(cookieparser());
 
 // View Engine
 app.set('view engine', 'ejs');
@@ -21,3 +23,5 @@ mongoose.connect(dbURI)
 app.get('/', (req, res) => res.render('home'));
 app.get('/kunu', (req, res) => res.render('kunu'));
 app.use(authRoutes);
+
+//  cookies
