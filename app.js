@@ -2,7 +2,7 @@ const express = require ("express");
 const mongoose = require ("mongoose");
 const authRoutes = require('./routes/authRoutes');
 const cookieparser = require('cookie-parser');
-const { requireAuth } = require("./middleware/authMidddleware");
+const { requireAuth, checkUser } = require("./middleware/authMidddleware");
 
 const app = express();
 
@@ -21,6 +21,7 @@ mongoose.connect(dbURI)
     .catch((err) => console.log(err));
 
 // routes
+app.get('*', checkUser);
 app.get('/', (req, res) => res.render('home'));
 app.get('/kunu', requireAuth, (req, res) => res.render('kunu'));
 app.use(authRoutes);
