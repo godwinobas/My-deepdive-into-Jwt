@@ -2,25 +2,20 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 require('dotenv').config();
 
-const requireAuth = (req, res, next) => {
+const requireAuth = async (req, res, next) => {
     const token = req.cookies.jwt;
 
     // check json web token exists and is verified
-    if (token) {
-        const secret = process.env.JWT_SECRET
-        jwt.verify(token, secret, (err, decodedToken) => {
-            if (err) {
-                console.log(err.message);
-                res.redirect('/login')
-            } else {
-                console.log(decodedToken);
-                next();
-            }
-        })
-    }
-    else {
-        res.redirect('/login');
-    }
+    try{
+        if (!token) throw Error('invalid token')
+        const decodedToken = await jwt.verify(token, secret)
+        console.log(decodedToken);
+        const user = await User.findById(decodedToken.id)
+        req.user = user
+      } catch(err) {
+        console.log(err);
+        res.redirect('/login')
+      }
 }
 
 // check current user
